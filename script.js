@@ -481,3 +481,20 @@ overlay.onclick=()=>overlay.remove();
 });
 
 console.log("Ultimate Gym Premium Website Loaded Successfully.");
+/* ===========================
+MOBILE MENU
+=========================== */
+
+const menu=document.querySelector(".menu-toggle");
+
+const links=document.querySelector(".nav-links");
+
+if(menu){
+
+menu.onclick=()=>{
+
+links.classList.toggle("active");
+
+};
+
+}
