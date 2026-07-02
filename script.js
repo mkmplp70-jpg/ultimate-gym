@@ -1,248 +1,176 @@
-/* ==========================================
+/* ===========================================================
    THE ULTIMATE GYM & HEALTH CLUB
-   SCRIPT.JS - PART 1
-========================================== */
+   AGENCY EDITION
+   VERSION 2.0
+=========================================================== */
 
-/* ==========================================
-   LOADER
-========================================== */
+/* ===========================================================
+   PAGE LOADER
+=========================================================== */
 
-window.addEventListener("load", function () {
+window.addEventListener("load", () => {
 
-    const loader = document.getElementById("loader");
+const loader = document.getElementById("loader");
 
-    setTimeout(() => {
+setTimeout(() => {
 
-        loader.style.opacity = "0";
+loader.style.opacity = "0";
 
-        loader.style.visibility = "hidden";
+loader.style.visibility = "hidden";
 
-    }, 1500);
+},1200);
 
 });
 
-/* ==========================================
-   LUNG HOLD CHALLENGE
-========================================== */
+/* ===========================================================
+   STICKY NAVBAR
+=========================================================== */
 
-let lungStartTime = 0;
+const header = document.getElementById("header");
 
-function startLungTest() {
+window.addEventListener("scroll",()=>{
 
-    const result = document.getElementById("lungResult");
+if(window.scrollY>50){
 
-    if (lungStartTime === 0) {
+header.style.background="rgba(0,0,0,.92)";
 
-        lungStartTime = Date.now();
+header.style.backdropFilter="blur(20px)";
 
-        result.innerHTML = "Hold your breath... Click again when finished.";
+}else{
 
-    } else {
-
-        let seconds = Math.floor((Date.now() - lungStartTime) / 1000);
-
-        lungStartTime = 0;
-
-        if (seconds >= 60) {
-
-            result.innerHTML = "🔥 Excellent! " + seconds + " seconds";
-
-        }
-
-        else if (seconds >= 40) {
-
-            result.innerHTML = "💪 Very Good! " + seconds + " seconds";
-
-        }
-
-        else if (seconds >= 20) {
-
-            result.innerHTML = "🙂 Average! " + seconds + " seconds";
-
-        }
-
-        else {
-
-            result.innerHTML = "⚠ Needs Improvement! " + seconds + " seconds";
-
-        }
-
-    }
+header.style.background="transparent";
 
 }
-
-/* ==========================================
-   BMI CALCULATOR
-========================================== */
-
-function calculateBMI() {
-
-    let height = document.getElementById("height").value;
-
-    let weight = document.getElementById("weight").value;
-
-    let result = document.getElementById("bmiResult");
-
-    if (height === "" || weight === "") {
-
-        result.innerHTML = "Please enter both values.";
-
-        return;
-
-    }
-
-    height = height / 100;
-
-    let bmi = weight / (height * height);
-
-    bmi = bmi.toFixed(1);
-
-    if (bmi < 18.5) {
-
-        result.innerHTML = "BMI: " + bmi + " (Underweight)";
-
-    }
-
-    else if (bmi < 25) {
-
-        result.innerHTML = "BMI: " + bmi + " (Healthy)";
-
-    }
-
-    else if (bmi < 30) {
-
-        result.innerHTML = "BMI: " + bmi + " (Overweight)";
-
-    }
-
-    else {
-
-        result.innerHTML = "BMI: " + bmi + " (Obese)";
-
-    }
-
-}
-
-/* ==========================================
-   WATER INTAKE CALCULATOR
-========================================== */
-
-function waterCalculator() {
-
-    let weight = document.getElementById("waterWeight").value;
-
-    let result = document.getElementById("waterResult");
-
-    if (weight === "") {
-
-        result.innerHTML = "Enter your weight.";
-
-        return;
-
-    }
-
-    let litres = (weight * 0.033).toFixed(1);
-
-    result.innerHTML =
-
-        "Drink approximately " + litres + " Litres/day";
-
-}
-
-/* ==========================================
-   CALORIE CALCULATOR
-========================================== */
-
-function calorieCalculator() {
-
-    let weight = document.getElementById("caloriesWeight").value;
-
-    let result = document.getElementById("calorieResult");
-
-    if (weight === "") {
-
-        result.innerHTML = "Enter your weight.";
-
-        return;
-
-    }
-
-    let calories = weight * 30;
-
-    result.innerHTML =
-
-        "Estimated Daily Calories: " + calories + " kcal";
-
-}
-/* ==========================================
-   SMOOTH SCROLL FOR LINKS
-========================================== */
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-
-    anchor.addEventListener("click", function(e){
-
-        e.preventDefault();
-
-        const target=document.querySelector(this.getAttribute("href"));
-
-        if(target){
-
-            target.scrollIntoView({
-
-                behavior:"smooth"
-
-            });
-
-        }
-
-    });
 
 });
 
-/* ==========================================
-   ANIMATED STATS COUNTER
-========================================== */
+/* ===========================================================
+   BACK TO TOP
+=========================================================== */
 
-const counters=document.querySelectorAll(".stats h2");
+const backToTop=document.getElementById("backToTop");
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>500){
+
+backToTop.style.display="flex";
+
+}else{
+
+backToTop.style.display="none";
+
+}
+
+});
+
+backToTop.addEventListener("click",()=>{
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+});
+
+/* ===========================================================
+   MOBILE MENU
+=========================================================== */
+
+const menuBtn=document.querySelector(".menu-btn");
+
+const navLinks=document.querySelector(".nav-links");
+
+menuBtn.addEventListener("click",()=>{
+
+navLinks.classList.toggle("showMenu");
+
+});
+
+/* ===========================================================
+   ACTIVE NAV LINK
+=========================================================== */
+
+const sections=document.querySelectorAll("section");
+
+const links=document.querySelectorAll(".nav-links a");
+
+window.addEventListener("scroll",()=>{
+
+let current="";
+
+sections.forEach(section=>{
+
+const top=section.offsetTop-120;
+
+const height=section.clientHeight;
+
+if(scrollY>=top){
+
+current=section.getAttribute("id");
+
+}
+
+});
+
+links.forEach(link=>{
+
+link.classList.remove("active");
+
+if(link.getAttribute("href")==="#"+current){
+
+link.classList.add("active");
+
+}
+
+});
+
+});
+
+/* ===========================================================
+   COUNTER ANIMATION
+=========================================================== */
+
+const counters=document.querySelectorAll(".counter h2");
 
 let counterStarted=false;
 
-function startCounters(){
+window.addEventListener("scroll",()=>{
 
-if(counterStarted) return;
+const section=document.querySelector(".counter-section");
+
+if(!section) return;
+
+const trigger=section.offsetTop-500;
+
+if(window.scrollY>trigger && !counterStarted){
 
 counterStarted=true;
 
 counters.forEach(counter=>{
 
-const targetText=counter.innerText;
-
-const target=parseInt(targetText.replace(/\D/g,"")) || 100;
+const target=+counter.dataset.target;
 
 let count=0;
 
-const speed=25;
+const speed=target/120;
 
 const update=()=>{
 
-count+=Math.ceil(target/80);
+count+=speed;
 
 if(count<target){
 
-counter.innerText=count+
+counter.innerText=Math.floor(count);
 
-(targetText.includes("+")?"+":
-
-targetText.includes("%")?"%":
-
-targetText.includes("★")?"★":"");
-
-setTimeout(update,speed);
+requestAnimationFrame(update);
 
 }else{
 
-counter.innerText=targetText;
+counter.innerText=target+"+";
 
 }
 
@@ -254,247 +182,499 @@ update();
 
 }
 
-window.addEventListener("scroll",()=>{
-
-const stats=document.querySelector(".stats");
-
-if(stats){
-
-const top=stats.getBoundingClientRect().top;
-
-if(top<window.innerHeight-100){
-
-startCounters();
-
-}
-
-}
-
 });
+/* ===========================================================
+   BMI CALCULATOR
+=========================================================== */
 
-/* ==========================================
-   RANDOM MOTIVATION QUOTES
-========================================== */
+function calculateBMI(){
+
+const height=document.getElementById("height");
+
+const weight=document.getElementById("weight");
+
+const result=document.getElementById("bmiResult");
+
+if(!height || !weight || !result) return;
+
+const h=parseFloat(height.value)/100;
+const w=parseFloat(weight.value);
+
+if(!h || !w){
+
+result.innerHTML="Please enter valid values.";
+
+return;
+
+}
+
+const bmi=(w/(h*h)).toFixed(1);
+
+let status="";
+
+if(bmi<18.5){
+
+status="Underweight";
+
+}else if(bmi<25){
+
+status="Healthy";
+
+}else if(bmi<30){
+
+status="Overweight";
+
+}else{
+
+status="Obese";
+
+}
+
+result.innerHTML=`BMI: <strong>${bmi}</strong><br>${status}`;
+
+}
+
+/* ===========================================================
+   WATER INTAKE CALCULATOR
+=========================================================== */
+
+function waterCalculator(){
+
+const weight=document.getElementById("waterWeight");
+
+const result=document.getElementById("waterResult");
+
+if(!weight || !result) return;
+
+const w=parseFloat(weight.value);
+
+if(!w){
+
+result.innerHTML="Enter your weight.";
+
+return;
+
+}
+
+const litres=(w*0.035).toFixed(1);
+
+result.innerHTML=`Recommended: <strong>${litres} Litres/day</strong>`;
+
+}
+
+/* ===========================================================
+   CALORIE ESTIMATOR
+=========================================================== */
+
+function calorieCalculator(){
+
+const weight=document.getElementById("caloriesWeight");
+
+const result=document.getElementById("calorieResult");
+
+if(!weight || !result) return;
+
+const w=parseFloat(weight.value);
+
+if(!w){
+
+result.innerHTML="Enter your weight.";
+
+return;
+
+}
+
+const calories=Math.round(w*30);
+
+result.innerHTML=`Estimated: <strong>${calories} Calories/day</strong>`;
+
+}
+
+/* ===========================================================
+   LUNG CHALLENGE
+=========================================================== */
+
+let lungStart=0;
+let lungRunning=false;
+
+function startLungTest(){
+
+const result=document.getElementById("lungResult");
+
+if(!result) return;
+
+if(!lungRunning){
+
+lungRunning=true;
+
+lungStart=Date.now();
+
+result.innerHTML="Hold your breath...";
+
+return;
+
+}
+
+lungRunning=false;
+
+const seconds=Math.floor((Date.now()-lungStart)/1000);
+
+let message="";
+
+if(seconds<20){
+
+message="Needs Improvement";
+
+}else if(seconds<40){
+
+message="Average";
+
+}else if(seconds<60){
+
+message="Very Good";
+
+}else{
+
+message="Excellent";
+
+}
+
+result.innerHTML=`${seconds} Seconds<br>${message}`;
+
+}
+
+/* ===========================================================
+   DAILY MOTIVATION
+=========================================================== */
 
 const quotes=[
 
 "Discipline beats motivation.",
 
-"One more rep.",
+"Push yourself because nobody else will.",
 
-"Success starts with consistency.",
+"Every workout counts.",
 
-"Push yourself because no one else will.",
+"Your future body is created today.",
 
-"Pain is temporary. Pride is forever.",
+"Small progress is still progress.",
 
-"Train hard. Stay humble.",
+"Strong mind. Strong body.",
 
-"The body achieves what the mind believes."
+"Success begins with consistency.",
+
+"One more rep. One more step.",
+
+"Believe in your strength.",
+
+"Dream big. Train bigger."
 
 ];
 
 function randomQuote(){
 
-const quote=document.querySelector(".quote h2");
+const text=document.getElementById("motivationText");
 
-if(!quote) return;
+if(!text) return;
 
-quote.innerHTML=
+const random=Math.floor(Math.random()*quotes.length);
 
-quotes[Math.floor(Math.random()*quotes.length)];
+text.innerHTML=quotes[random];
 
 }
+/* ===========================================================
+   SCROLL REVEAL ANIMATIONS
+=========================================================== */
 
-setInterval(randomQuote,8000);
+const revealElements=document.querySelectorAll(
 
-/* ==========================================
-   WORKOUT STREAK
-========================================== */
-
-let streak=localStorage.getItem("gymStreak") || 0;
-
-function completeWorkout(){
-
-streak++;
-
-localStorage.setItem("gymStreak",streak);
-
-alert(
-
-"🔥 Great Job!\n\nCurrent Workout Streak: "+streak+" Days"
+".facility-card,.feature-box,.plan-card,.gallery-item,.testimonial-card,.tool-card,.contact-card,.social-card,.counter"
 
 );
 
+const revealObserver=new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.style.opacity="1";
+
+entry.target.style.transform="translateY(0)";
+
+revealObserver.unobserve(entry.target);
+
 }
 
-/* ==========================================
-   BACK TO TOP BUTTON
-========================================== */
+});
 
-const topBtn=document.createElement("button");
+},{
 
-topBtn.innerHTML="↑";
+threshold:0.15
 
-topBtn.id="topButton";
+});
 
-document.body.appendChild(topBtn);
+revealElements.forEach(element=>{
 
-topBtn.style.position="fixed";
+element.style.opacity="0";
 
-topBtn.style.bottom="30px";
+element.style.transform="translateY(60px)";
 
-topBtn.style.right="30px";
+element.style.transition="all .8s ease";
 
-topBtn.style.width="55px";
+revealObserver.observe(element);
 
-topBtn.style.height="55px";
+});
 
-topBtn.style.borderRadius="50%";
+/* ===========================================================
+   SMOOTH NAVIGATION
+=========================================================== */
 
-topBtn.style.border="none";
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
 
-topBtn.style.background="#FFD54A";
+anchor.addEventListener("click",function(e){
 
-topBtn.style.color="#000";
+const target=document.querySelector(this.getAttribute("href"));
 
-topBtn.style.fontSize="24px";
+if(target){
 
-topBtn.style.cursor="pointer";
+e.preventDefault();
 
-topBtn.style.display="none";
+target.scrollIntoView({
 
-topBtn.style.zIndex="999";
+behavior:"smooth",
+
+block:"start"
+
+});
+
+}
+
+});
+
+});
+
+/* ===========================================================
+   GALLERY LIGHTBOX
+=========================================================== */
+
+const galleryImages=document.querySelectorAll(".gallery-item img");
+
+const lightbox=document.createElement("div");
+
+lightbox.id="lightbox";
+
+lightbox.innerHTML="<img>";
+
+document.body.appendChild(lightbox);
+
+galleryImages.forEach(image=>{
+
+image.addEventListener("click",()=>{
+
+lightbox.classList.add("active");
+
+lightbox.querySelector("img").src=image.src;
+
+});
+
+});
+
+lightbox.addEventListener("click",()=>{
+
+lightbox.classList.remove("active");
+
+});
+
+/* ===========================================================
+   PARALLAX HERO
+=========================================================== */
+
+const heroImage=document.querySelector(".hero-background img");
 
 window.addEventListener("scroll",()=>{
 
-if(window.scrollY>400){
+if(heroImage){
 
-topBtn.style.display="block";
+heroImage.style.transform=`translateY(${window.scrollY*0.2}px) scale(1.1)`;
+
+}
+
+});
+
+/* ===========================================================
+   NAVBAR SHADOW
+=========================================================== */
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>20){
+
+header.style.boxShadow="0 15px 40px rgba(0,0,0,.45)";
 
 }else{
 
-topBtn.style.display="none";
+header.style.boxShadow="none";
 
 }
 
 });
 
-topBtn.onclick=()=>{
+/* ===========================================================
+   PERFORMANCE
+=========================================================== */
 
-window.scrollTo({
+document.querySelectorAll("img").forEach(img=>{
 
-top:0,
+img.loading="lazy";
 
-behavior:"smooth"
-
-});
-
-};
-
-/* ==========================================
-   SCROLL PROGRESS BAR
-========================================== */
-
-const progress=document.createElement("div");
-
-progress.id="progressBar";
-
-document.body.appendChild(progress);
-
-progress.style.position="fixed";
-
-progress.style.top="0";
-
-progress.style.left="0";
-
-progress.style.height="5px";
-
-progress.style.background="#FFD54A";
-
-progress.style.width="0%";
-
-progress.style.zIndex="9999";
-
-window.addEventListener("scroll",()=>{
-
-const winScroll=document.documentElement.scrollTop;
-
-const height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-
-const scrolled=(winScroll/height)*100;
-
-progress.style.width=scrolled+"%";
+img.draggable=false;
 
 });
 
-/* ==========================================
-   GALLERY IMAGE ZOOM
-========================================== */
+/* ===========================================================
+   CONSOLE SIGNATURE
+=========================================================== */
 
-document.querySelectorAll(".gallery img").forEach(img=>{
+console.log("%cThe Ultimate Gym & Health Club",
 
-img.addEventListener("click",()=>{
+"color:#FFD54A;font-size:22px;font-weight:bold;");
 
-const overlay=document.createElement("div");
+console.log("%cPremium Website Developed by Agency Edition",
 
-overlay.style.position="fixed";
+"color:white;font-size:14px;");
+/* ===========================================================
+   FLOATING BUTTON ANIMATION
+=========================================================== */
 
-overlay.style.top="0";
+const floatingButtons=document.querySelectorAll(
 
-overlay.style.left="0";
+".floating-call,.floating-whatsapp,#backToTop"
 
-overlay.style.width="100%";
+);
 
-overlay.style.height="100%";
+floatingButtons.forEach(button=>{
 
-overlay.style.background="rgba(0,0,0,.95)";
+button.addEventListener("mouseenter",()=>{
 
-overlay.style.display="flex";
+button.style.transform="translateY(-6px) scale(1.08)";
 
-overlay.style.justifyContent="center";
+});
 
-overlay.style.alignItems="center";
+button.addEventListener("mouseleave",()=>{
 
-overlay.style.cursor="pointer";
-
-overlay.style.zIndex="99999";
-
-const image=document.createElement("img");
-
-image.src=img.src;
-
-image.style.maxWidth="90%";
-
-image.style.maxHeight="90%";
-
-image.style.borderRadius="20px";
-
-overlay.appendChild(image);
-
-document.body.appendChild(overlay);
-
-overlay.onclick=()=>overlay.remove();
+button.style.transform="translateY(0) scale(1)";
 
 });
 
 });
 
-console.log("Ultimate Gym Premium Website Loaded Successfully.");
-/* ===========================
-MOBILE MENU
-=========================== */
+/* ===========================================================
+   BUTTON RIPPLE EFFECT
+=========================================================== */
 
-const menu=document.querySelector(".menu-toggle");
+document.querySelectorAll(
 
-const links=document.querySelector(".nav-links");
+".primary-btn,.secondary-btn,.plan-card a,.contact-card a,.tool-card button"
 
-if(menu){
+).forEach(button=>{
 
-menu.onclick=()=>{
+button.addEventListener("click",function(e){
 
-links.classList.toggle("active");
+const ripple=document.createElement("span");
 
-};
+const rect=this.getBoundingClientRect();
+
+const size=Math.max(rect.width,rect.height);
+
+ripple.style.width=size+"px";
+
+ripple.style.height=size+"px";
+
+ripple.style.left=e.clientX-rect.left-size/2+"px";
+
+ripple.style.top=e.clientY-rect.top-size/2+"px";
+
+ripple.style.position="absolute";
+
+ripple.style.borderRadius="50%";
+
+ripple.style.background="rgba(255,255,255,.4)";
+
+ripple.style.transform="scale(0)";
+
+ripple.style.animation="ripple .6s linear";
+
+ripple.style.pointerEvents="none";
+
+this.style.position="relative";
+
+this.style.overflow="hidden";
+
+this.appendChild(ripple);
+
+setTimeout(()=>{
+
+ripple.remove();
+
+},600);
+
+});
+
+});
+
+/* ===========================================================
+   RIPPLE KEYFRAME
+=========================================================== */
+
+const rippleStyle=document.createElement("style");
+
+rippleStyle.innerHTML=`
+
+@keyframes ripple{
+
+to{
+
+transform:scale(4);
+
+opacity:0;
 
 }
+
+}
+
+`;
+
+document.head.appendChild(rippleStyle);
+
+/* ===========================================================
+   CURRENT YEAR
+=========================================================== */
+
+const year=document.getElementById("year");
+
+if(year){
+
+year.textContent=new Date().getFullYear();
+
+}
+
+/* ===========================================================
+   PREVENT EMPTY LINKS
+=========================================================== */
+
+document.querySelectorAll('a[href="#"]').forEach(link=>{
+
+link.addEventListener("click",(e)=>{
+
+e.preventDefault();
+
+});
+
+});
+
+/* ===========================================================
+   WEBSITE READY
+=========================================================== */
+
+console.log("Website Loaded Successfully ✅");
