@@ -678,3 +678,83 @@ e.preventDefault();
 =========================================================== */
 
 console.log("Website Loaded Successfully ✅");
+
+/* ===========================================================
+   Counter Animation 
+=========================================================== */
+
+#loader{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:#000;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:999999;
+
+transition:1s;
+
+}
+
+.loader-logo{
+
+text-align:center;
+
+}
+
+.loader-logo img{
+
+width:120px;
+
+margin-bottom:20px;
+
+animation:spinLogo 3s linear infinite;
+
+}
+
+.loader-logo h2{
+
+color:#FFD54A;
+
+letter-spacing:3px;
+
+}
+
+@keyframes spinLogo{
+
+100%{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+/* ===========================================================
+   LOADING SCREEN 
+=========================================================== */
+
+window.addEventListener("load",()=>{
+
+setTimeout(()=>{
+
+document.getElementById("loader").style.opacity="0";
+
+document.getElementById("loader").style.visibility="hidden";
+
+},1800);
+
+});
